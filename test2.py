@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-tree = ET.parse('/home/d.kumar/Desktop/python_test/word-doc-extract/word/document.xml')
+tree = ET.parse('document.xml')
 iteration_elements = tree.iter()
 substring = "s-zera-stor01"
 text_found = ""
