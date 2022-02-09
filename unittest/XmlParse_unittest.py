@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import unittest
 import sys, os
-sys.path.insert(1, "/home/d.kumar/data/gitproject/zera/documents-link/")
+sys.path.insert(1, "/documents-link/")
 from modules import XmlParse as XmlParseClass
 
 class Test(unittest.TestCase):
