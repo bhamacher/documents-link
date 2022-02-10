@@ -1,11 +1,27 @@
 #!/usr/bin/env python3
 import unittest
-import sys, os
-sys.path.insert(1, "/documents-link/")
-from modules import XmlParse as XmlParseClass
+from ..modules import XmlParse as XmlParseClass
 
 class Test(unittest.TestCase):
-    xmlparse = XmlParseClass.XmlParse()
+    def test_validXml(self):
+        xmlparse = XmlParseClass.XmlParse()
+        data = """<?xml version="1.0" encoding="UTF-8"?>
+                <xmldata>
+                    <results>
+                        <binding name="id">
+                            <literal>s-zera-stor01-data-test_for_xml1.pdf</literal>
+                            <literal>s-zera-stor01-data-test_for_xml2.pdf</literal>
+                        </binding>
+                    </results>
+                </xmldata>"""
+        xmlparse.SetXmlStrings(data)
+        self.assertIs(xmlparse.xmlvalid, True)
+    def test_invalidXml(self):
+        xmlparse = XmlParseClass.XmlParse()
+        xmlparse.SetXmlStrings('foo')
+        self.assertIs(xmlparse.xmlvalid, False)
+
+
     def test_SetXmlStrings(self):
         xml_validation = self.xmlparse.SetXmlStrings("xmlvalid")
         self.assertIs(xml_validation, "Valid_xml")
