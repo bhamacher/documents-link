@@ -47,5 +47,12 @@ class Test(unittest.TestCase):
         searchResult = xmlparse.SearchStrings('s-zera-stor01')
         self.assertIs(len(searchResult), 2)
 
+    def test_searchStringWithParseCalledValidContentFound(self):
+        xmlparse = XmlParse.XmlParse()
+        xmlparse.SetXmlStrings(validXml)
+        searchResult = xmlparse.SearchStrings('s-zera-stor01')
+        self.assertEqual(searchResult[0].text, "s-zera-stor01-data-test_for_xml1.pdf")
+        self.assertEqual(searchResult[1].text, "s-zera-stor01-data-test_for_xml2.pdf")
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
