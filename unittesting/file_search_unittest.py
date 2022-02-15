@@ -41,5 +41,17 @@ class Test(unittest.TestCase):
         search_result = file_search_object.search_file(test_folder(), ["*.doc", "*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE)+1)
 
+    def test_files_found_win_path(self):
+        file_search_object = file_search.FileSearch()
+        search_path = (test_folder().replace('/', '\\'))
+        search_result = file_search_object.search_file(search_path, ["*.txt"])
+        self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
+
+    def test_files_found_linux_path(self):
+        file_search_object = file_search.FileSearch()
+        search_path = (test_folder().replace('\\', '/'))
+        search_result = file_search_object.search_file(search_path, ["*.txt"])
+        self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
