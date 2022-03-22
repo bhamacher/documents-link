@@ -1,7 +1,8 @@
 import glob
 import os
+import I_search_file
 
-class FileSearch:
+class LocalFileSearch(I_search_file.FileSearchStrategy):
     @staticmethod
     def search_file(search_path, list_searchstring):
         search_path = search_path.replace('/', os.path.sep)

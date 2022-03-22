@@ -1,6 +1,6 @@
 import unittest
 import os
-from modules import file_search
+from modules import local_search
 
 TESTDIR_STRUCTURE = [
     'folder1/foo1.txt',
@@ -17,40 +17,40 @@ def test_folder():
 
 class Test(unittest.TestCase):
     def test_invalid_path(self):
-        file_search_object = file_search.FileSearch()
-        search_result = file_search_object.search_file("path_foo", ["*.txt"])
+        file_search_object = local_search.LocalFileSearch()
+        search_result = file_search_object.local_search_file("path_foo", ["*.txt"])
         self.assertIs(search_result, None)
 
     def test_valid_path(self):
-        file_search_object = file_search.FileSearch()
-        search_result = file_search_object.search_file(test_folder(), ["*.foo"])
+        file_search_object = local_search.LocalFileSearch()
+        search_result = file_search_object.local_search_file(test_folder(), ["*.foo"])
         self.assertIs(len(search_result), 0)
 
     def test_files_found(self):
-        file_search_object = file_search.FileSearch()
-        search_result = file_search_object.search_file(test_folder(), ["*.txt"])
+        file_search_object = local_search.LocalFileSearch()
+        search_result = file_search_object.local_search_file(test_folder(), ["*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
 
     def test_files_found_doc(self):
-        file_search_object = file_search.FileSearch()
-        search_result = file_search_object.search_file(test_folder(), ["*.doc"])
+        file_search_object = local_search.LocalFileSearch()
+        search_result = file_search_object.local_search_file(test_folder(), ["*.doc"])
         self.assertEqual(len(search_result), 1)
 
     def test_files_found_doc_and_text(self):
-        file_search_object = file_search.FileSearch()
-        search_result = file_search_object.search_file(test_folder(), ["*.doc", "*.txt"])
+        file_search_object = local_search.LocalFileSearch()
+        search_result = file_search_object.local_search_file(test_folder(), ["*.doc", "*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE)+1)
 
     def test_files_found_win_path(self):
-        file_search_object = file_search.FileSearch()
+        file_search_object = local_search.LocalFileSearch()
         search_path = (test_folder().replace('/', '\\'))
-        search_result = file_search_object.search_file(search_path, ["*.txt"])
+        search_result = file_search_object.local_search_file(search_path, ["*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
 
     def test_files_found_linux_path(self):
-        file_search_object = file_search.FileSearch()
+        file_search_object = local_search.LocalFileSearch()
         search_path = (test_folder().replace('\\', '/'))
-        search_result = file_search_object.search_file(search_path, ["*.txt"])
+        search_result = file_search_object.local_search_file(search_path, ["*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
 
 if __name__ == '__main__':
