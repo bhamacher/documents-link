@@ -4,12 +4,12 @@ import os
 import socket
 from urllib.parse import urlparse
 import fnmatch
+from modules import I_search_file
 
+user_name = getpass(prompt='Give your user_name: ')
+password  = getpass(prompt='Give your password: ')
 
-user_name = getpass(prompt='Input your user_name: ')
-password  = getpass(prompt='Input your password: ')
-
-class SmbSearch:
+class SmbSearch(I_search_file.FileSearchStrategy):
     @staticmethod
     def smbwalk(conn, shareddevice, top = u'/'):
         dirs , nondirs = [], []
@@ -30,7 +30,7 @@ class SmbSearch:
                 pass
 
     @staticmethod
-    def smb_search_file(search_path, list_searchstring):
+    def search_file(search_path, list_searchstring):
         url_parsed              = urlparse(search_path)
         server_IP               = socket.gethostbyname(url_parsed.netloc)
         server_machine_name     = url_parsed.netloc

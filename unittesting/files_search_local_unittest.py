@@ -1,8 +1,8 @@
 import unittest
 import os
-import files_search
-import smb_search
-import local_search
+from modules import files_search
+from modules import local_search
+
 
 ## local
 TESTDIR_STRUCTURE = [
@@ -18,8 +18,6 @@ TESTDIR_STRUCTURE = [
 def test_folder():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder'))
 
-## smb
-smb_data = "smb://s-zera-stor01/data1/Mitarbeiter/test_link_data"
 
 class Test(unittest.TestCase):
 
@@ -61,21 +59,6 @@ class Test(unittest.TestCase):
         search_result = file_path_object.search_file_strategy(search_path, ["*.txt"])
         self.assertEqual(len(search_result), len(TESTDIR_STRUCTURE))
 
-### smb_search
-    def test_1_smb_search_found_files_xlsx(self):
-        file_path_object = files_search.FileSearch(smb_search.SmbSearch())
-        success = file_path_object.search_file_strategy(smb_data, "*.xlsx")
-        self.assertTrue(success)
-
-    def test_2_smb_search_found_files_docx(self):
-        file_path_object = files_search.FileSearch(smb_search.SmbSearch())
-        success = file_path_object.search_file_strategy(smb_data, "*.docx")
-        self.assertTrue(success)
-
-    def test_3_smb_search_found_files_lnk(self):
-        file_path_object = files_search.FileSearch(smb_search.SmbSearch())
-        success = file_path_object.search_file_strategy(smb_data, "*.lnk")
-        self.assertTrue(success)
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 import glob
 import os
+from modules import I_search_file
 
-class LocalFileSearch:
+class LocalFileSearch(I_search_file.FileSearchStrategy):
     @staticmethod
-    def local_search_file(search_path, list_searchstring):
+    def search_file(search_path, list_searchstring):
         search_path = search_path.replace('/', os.path.sep)
         search_path = search_path.replace('\\', os.path.sep)
         if not os.path.isdir(search_path):

@@ -1,4 +1,4 @@
-import I_search_file
+from modules import I_search_file
 
 ## context - the primary class
 class FileSearch:
