@@ -1,0 +1,3 @@
+#!/bin/bash
+pytest -v unittesting/*.py
+pytest -v unittesting_without_ci/*.py
