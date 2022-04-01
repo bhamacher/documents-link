@@ -2,8 +2,17 @@ from smb.SMBConnection import SMBConnection
 import socket
 from getpass import getpass
 
+class Singleton_smb_connection(type): # metaclass
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton_smb_connection, cls).__call__(*args, **kwargs)
+        else:
+            cls._instances[cls].__init__(*args, **kwargs)
+        return cls._instances[cls]
 
-class SmbServerConnection():
+
+class SmbServerConnection(metaclass=Singleton_smb_connection):
     def __init__(self): # Initializing
         self.dict_conn = {}
 
@@ -20,7 +29,6 @@ class SmbServerConnection():
 
     def get_connection_count(self):
         return len(self.dict_conn)
-
 
     def __del__(self): # Calling destructor
         self.dict_conn.clear()
