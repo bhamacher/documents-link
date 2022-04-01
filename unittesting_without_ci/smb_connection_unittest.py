@@ -8,7 +8,7 @@ sys.path.append(mymodule_dir)
 import smb_connection
 
 ## smb
-smb_data_path = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU"
+smb_data_path = "smb://s-zera-stor01/data1"
 server_name = urlparse(smb_data_path).netloc
 
 
