@@ -1,11 +1,9 @@
 import unittest
 import os, sys
 from urllib.parse import urlparse
+from getpass import getpass
 
-script_dir = os.path.dirname( __file__ )
-mymodule_dir = os.path.join( script_dir, '..', 'modules')
-sys.path.append(mymodule_dir)
-import smb_connection
+from modules import smb_connection
 
 ## smb
 smb_path_name = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/test_link_data/docx_data/Abt-TB-2021-05-03.docx"
@@ -14,13 +12,17 @@ smb_path_name = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/
 class Test(unittest.TestCase):
 
     def test_1_connection(self):
+        user_name           = getpass(prompt = 'Give your user_name: ')
+        password            = getpass(prompt = 'Give your password: ')
         smb_path_connection = smb_connection.SmbServerConnectionHandler()
-        connection = smb_path_connection.get_connection(smb_path_name)
+        connection = smb_path_connection.get_connection(smb_path_name, user_name, password)
         self.assertIsNotNone(connection)
 
     def test_2_connects_one_credential(self):
+        user_name           = getpass(prompt = 'Give your user_name: ')
+        password            = getpass(prompt = 'Give your password: ')
         smb_path_connection = smb_connection.SmbServerConnectionHandler()
-        connection = smb_path_connection.get_connection(smb_path_name)
+        connection = smb_path_connection.get_connection(smb_path_name, user_name, password)
         self.assertIsNotNone(connection)
         self.assertEqual(smb_path_connection.get_connection_count(), 1)
 
