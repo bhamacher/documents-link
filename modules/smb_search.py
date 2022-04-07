@@ -28,7 +28,7 @@ class SmbSearch(I_search_file.FileSearchStrategy):
         url_parsed              = urlparse(search_path)
         share_name              = (url_parsed.path.split("/"))[1]
         top                     = (url_parsed.path.split(share_name))[1]
-        self.conn               = smb_connection.SmbServerConnectionHandler().get_connection(search_path)
+        self.conn               = smb_connection.SmbServerConnectionHandler().get_existing_connection(search_path)
         search_result = []
         for folder in self.smbwalk(self.conn, share_name, top):
             path = folder[0]
