@@ -1,17 +1,11 @@
-from smb.SMBConnection import SMBConnection
-from getpass import getpass
 import os
-import socket
 from urllib.parse import urlparse
 import fnmatch
 from modules import I_search_file
-
-user_name = getpass(prompt='Give your user_name: ')
-password  = getpass(prompt='Give your password: ')
+from modules import smb_connection
 
 class SmbSearch(I_search_file.FileSearchStrategy):
-    @staticmethod
-    def smbwalk(conn, shareddevice, top = u'/'):
+    def smbwalk(self, conn, shareddevice, top = u'/'):
         dirs , nondirs = [], []
         names = conn.listPath(shareddevice, top)
         for name in names:
@@ -24,23 +18,19 @@ class SmbSearch(I_search_file.FileSearchStrategy):
         for name in dirs:
             try:
                 new_path = os.path.join(top, name)
-                for x in SmbSearch.smbwalk(conn, shareddevice, new_path):
+                for x in self.smbwalk(conn, shareddevice, new_path):
                     yield x     
             except:
                 pass
 
-    @staticmethod
-    def search_file(search_path, list_searchstring):
+    
+    def search_file(self, search_path, list_searchstring):
         url_parsed              = urlparse(search_path)
-        server_IP               = socket.gethostbyname(url_parsed.netloc)
-        server_machine_name     = url_parsed.netloc
         share_name              = (url_parsed.path.split("/"))[1]
         top                     = (url_parsed.path.split(share_name))[1]
-        conn                    = SMBConnection(user_name, password, "", server_machine_name, use_ntlm_v2 = True)
-        assert conn.connect(server_IP, 139)
-
+        self.conn               = smb_connection.SmbServerConnectionHandler().get_connection(search_path)
         search_result = []
-        for folder in SmbSearch.smbwalk(conn, share_name, top):
+        for folder in self.smbwalk(self.conn, share_name, top):
             path = folder[0]
             for file in folder[2]:
                 file_name = os.path.join(path, file)
