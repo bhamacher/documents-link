@@ -4,7 +4,7 @@ from modules import smb_search
 
 
 ## smb
-smb_data = "smb://s-zera-stor01/data1/Mitarbeiter/test_link_data"
+smb_data = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU"
 
 class Test(unittest.TestCase):
 
