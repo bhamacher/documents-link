@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
         factory = SearchBehaviourFactory.SearchBehaviourFactory()
         behaviour = factory.CreateCopyBehaviour(path_name)
         self.assertIsInstance(behaviour,local_copy_file.LocalCopyFile)
-        self.assertNotIsInstance(behaviour,smb_search.SmbSearch)
+        self.assertNotIsInstance(behaviour,smb_copy_file.SmbCopyFile)
 
 
 
