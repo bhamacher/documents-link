@@ -1,10 +1,12 @@
 import os
+from getpass import getpass
+
 from urllib.parse import urlparse
 import fnmatch
 from modules import I_search_file
 from modules import smb_connection
 
-class SmbSearch(I_search_file.FileSearchStrategy):
+class SmbSearch(I_search_file.ISearchFileStrategy):
     def smbwalk(self, conn, shareddevice, top = u'/'):
         dirs , nondirs = [], []
         names = conn.listPath(shareddevice, top)
@@ -28,7 +30,9 @@ class SmbSearch(I_search_file.FileSearchStrategy):
         url_parsed              = urlparse(search_path)
         share_name              = (url_parsed.path.split("/"))[1]
         top                     = (url_parsed.path.split(share_name))[1]
-        self.conn               = smb_connection.SmbServerConnectionHandler().get_existing_connection(search_path)
+        user_name               = getpass(prompt = 'Give your user_name: ')
+        password                = getpass(prompt = 'Give your password: ')
+        self.conn               = smb_connection.SmbServerConnectionHandler().get_connection(search_path, user_name, password)
         search_result = []
         for folder in self.smbwalk(self.conn, share_name, top):
             path = folder[0]

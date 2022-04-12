@@ -1,13 +1,8 @@
 import unittest
-import os, sys
-from urllib.parse import urlparse
 from getpass import getpass
-
 from modules import smb_connection
 
-## smb
 smb_path_name = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/test_link_data/docx_data/Abt-TB-2021-05-03.docx"
-
 
 class Test(unittest.TestCase):
 
@@ -25,6 +20,11 @@ class Test(unittest.TestCase):
         connection = smb_path_connection.get_connection(smb_path_name, user_name, password)
         self.assertIsNotNone(connection)
         self.assertEqual(smb_path_connection.get_connection_count(), 1)
+
+    def test_3_no_connection(self):
+        smb_path_connection = smb_connection.SmbServerConnectionHandler()
+        connection = smb_path_connection.get_existing_connection()
+        self.assertEqual(connection, 0)
 
 
 if __name__ == '__main__':

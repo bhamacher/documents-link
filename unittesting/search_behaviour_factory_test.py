@@ -1,27 +1,41 @@
-
 import unittest
 from modules import SearchBehaviourFactory
 from modules import smb_search
 from modules import local_search
+from modules import local_copy_file
+from modules import smb_copy_file
+
 
 class Test(unittest.TestCase):
 
     def test_create_smb_connection(self):
-        path_name = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/test_link_data/docx_data/Abt-TB-2021-05-03.docx"
+        path_name = "smb://s-zera-stor01/data1"
         factory = SearchBehaviourFactory.SearchBehaviourFactory()
-        behaviour=factory.CreateSearchBehaviour(path_name)
-        self.assertTrue(isinstance(behaviour,smb_search.SmbSearch))
-        self.assertFalse(isinstance(behaviour,local_search.LocalFileSearch))
-        pass
+        behaviour = factory.CreateSearchBehaviour(path_name)
+        self.assertIsInstance(behaviour,smb_search.SmbSearch)
+        self.assertNotIsInstance(behaviour,local_search.LocalFileSearch)
 
     def test_create_local_connection(self):
-        path_name = r'M:\data1\Zusammenarbeit\Transferordner\EW\DKU\test_link_data\docx_data\Abt-TB-2021-05-03.docx'
+        path_name = "\\s-zera-stor01\data1\Zusammenarbeit"
         factory = SearchBehaviourFactory.SearchBehaviourFactory()
-        behaviour=factory.CreateSearchBehaviour(path_name)
-        # TODO: This will fail: Factory must implement behaviour.
-        self.assertTrue(isinstance(behaviour,local_search.LocalFileSearch))
-        self.assertFalse(isinstance(behaviour,smb_search.SmbSearch))
-        pass
+        behaviour = factory.CreateSearchBehaviour(path_name)
+        self.assertIsInstance(behaviour,local_search.LocalFileSearch)
+        self.assertNotIsInstance(behaviour,smb_search.SmbSearch)
+
+    def test_create_smb_copy(self):
+        path_name = "smb://s-zera-stor01/data1"
+        factory = SearchBehaviourFactory.SearchBehaviourFactory()
+        behaviour = factory.CreateCopyBehaviour(path_name)
+        self.assertIsInstance(behaviour,smb_copy_file.SmbCopyFile)
+        self.assertNotIsInstance(behaviour,local_copy_file.LocalCopyFile)
+
+
+    def test_create_local_copy(self):
+        path_name = "\\s-zera-stor01\data1\Zusammenarbeit"
+        factory = SearchBehaviourFactory.SearchBehaviourFactory()
+        behaviour = factory.CreateCopyBehaviour(path_name)
+        self.assertIsInstance(behaviour,local_copy_file.LocalCopyFile)
+        self.assertNotIsInstance(behaviour,smb_search.SmbSearch)
 
 
 

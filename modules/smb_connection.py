@@ -1,6 +1,5 @@
 from smb.SMBConnection import SMBConnection
 import socket
-from getpass import getpass
 from urllib.parse import urlparse
 
 class Singleton_smb_connection(type): # metaclass
@@ -31,8 +30,8 @@ class SmbServerConnectionHandler(metaclass=Singleton_smb_connection):
         return self.dict_conn[server_name]
 
     #TODO: Add unittest (what happens in case connection does not exist)
-    def get_existing_connection(self,server_name):
-        return self.dict_conn[server_name]
+    def get_existing_connection(self):
+        return len(self.dict_conn)
 
     def get_connection_count(self):
         return len(self.dict_conn)

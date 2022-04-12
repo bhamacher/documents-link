@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
 ## Strategy interface
-class FileSearchStrategy(ABC):
+class ISearchFileStrategy(ABC):
     @abstractmethod
-    def search_file(search_path, list_searchstring):
+    def search_file(self,search_path, list_searchstring):
         pass
-    
