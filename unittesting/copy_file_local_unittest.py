@@ -1,6 +1,5 @@
 import unittest
 import os
-from getpass import getpass
 from modules import local_copy_file
 
 
