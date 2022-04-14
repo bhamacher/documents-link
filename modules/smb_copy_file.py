@@ -67,7 +67,7 @@ class SmbCopyFile(I_copy_file.ICopyFileStrategy):
             if search_result == []:
                 return "Not found Invalid link"
             else:
-                return "Invalid link found :" + "\n" + search_result
+                return "Invalid link : " + str(search_result)
 
         else:
             return None
