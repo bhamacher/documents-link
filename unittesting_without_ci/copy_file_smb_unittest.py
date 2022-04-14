@@ -2,7 +2,7 @@ import unittest
 from getpass import getpass
 from modules import smb_copy_file
 
-smb_data_full_path = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/test_link_data/docx_data/Besprechung_EWHardware_2022-02-01.docx"
+smb_data_full_path = "smb://s-zera-stor01/data1/Abteilungen/Entwicklung/Hardware/Abteilungsbesprechung/Besprechung_EWHardware_2018_07_02.docx"
 
 
 class Test(unittest.TestCase):
