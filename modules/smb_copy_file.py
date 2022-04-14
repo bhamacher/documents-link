@@ -26,7 +26,7 @@ class SmbCopyFile(I_copy_file.ICopyFileStrategy):
         pass
 
     def copy_file(self, source, destination, user_name, password):
-        if "smb://" in source:
+        if "docx" in source:
             conn = self.smbServerConnectionHandler.get_connection(source, user_name, password)
             path_parse = urlparse(source)
             share_name = path_parse.path.split("/")[1]
@@ -34,6 +34,7 @@ class SmbCopyFile(I_copy_file.ICopyFileStrategy):
             base_file_name = base_file_path.split("/")[-1]
             destination = tempfile.gettempdir() ## check for correct file.
             tmp_file = os.path.join(destination, base_file_name)
+            search_result = []
             # download all_smb_file to databank
             with open(databank_smb(), 'wb') as fp_smb: # copy smb file to temp.
                 conn.retrieveFile("data1", "/Zusammenarbeit/Transferordner/EW/DKU/databank_smb/all_smb_data_type.txt", fp_smb)
@@ -54,18 +55,19 @@ class SmbCopyFile(I_copy_file.ICopyFileStrategy):
                         linux_data_path = 'smb:' + data_link 
                         with open(databank_smb()) as f:
                                 if not linux_data_path in str([line.rstrip('\n') for line in f]):
-                                    print("\n" + "--->invalid_link: ", linux_data_path + "\n")
-                                else:
-                                    print("\n" + "Invalid link not found")
+                                    #print("\n" + "--->invalid_link: ", linux_data_path + "\n")
+                                    search_result.append(linux_data_path)
 
             # delete databank_smb
             if os.path.exists(databank_smb()):
                 os.remove(databank_smb())
-                
             # delete all contents of output_zip
             shutil.rmtree(output_zip())
 
-            return True
+            if search_result == []:
+                return "Not found Invalid link"
+            else:
+                return "Invalid link found :" + "\n" + search_result
 
         else:
-            return False
+            return None

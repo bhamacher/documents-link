@@ -2,12 +2,11 @@ import unittest
 from getpass import getpass
 from modules import smb_copy_file
 
-smb_data_full_path = "smb://s-zera-stor01/data1/Abteilungen/Entwicklung/Hardware/Abteilungsbesprechung/Besprechung_EWHardware_2018_07_02.docx"
-
+smb_data_full_path = input("give smb data full path" + "\n" + "Example for smb : smb://s-zera-stor01/data1/dir/file.docx" + "\n")
 
 class Test(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.file_path_object = smb_copy_file.SmbCopyFile()
         return super().setUp()
 
@@ -16,7 +15,7 @@ class Test(unittest.TestCase):
         password            = getpass(prompt = 'Give your password: ')
         destination         = ""
         search_result = self.file_path_object.copy_file(smb_data_full_path, destination, user_name, password)
-        self.assertEqual(search_result, True)
+        self.assertIsNotNone(search_result)
 
 
 if __name__ == '__main__':
