@@ -23,6 +23,7 @@ class SmbServerConnectionHandler(metaclass=Singleton_smb_connection):
 
     def _get_connection(self, server_name, user_name, password):
         if not server_name in self.dict_conn:
+            ## check for the windows, if socket unable to find out ip with gethostbyname then add hostname and ip to windows path (C:\Windows\System32\drivers\etc\hosts)
             server_IP           = socket.gethostbyname(server_name)
             conn                = SMBConnection(user_name, password, "", server_name)
             assert conn.connect(server_IP, 139)
