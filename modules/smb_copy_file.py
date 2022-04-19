@@ -3,7 +3,6 @@ import re
 import time
 import shutil
 import xml.etree.ElementTree as ET
-from zipfile import ZipFile
 from urllib.parse import urlparse
 from zipfile import ZipFile
 from modules import smb_connection
