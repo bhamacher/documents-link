@@ -30,7 +30,6 @@ class SmbServerConnectionHandler(metaclass=Singleton_smb_connection):
             self.dict_conn[server_name] = conn
         return self.dict_conn[server_name]
 
-    #TODO: Add unittest (what happens in case connection does not exist)
     def get_existing_connection(self):
         return len(self.dict_conn)
 
