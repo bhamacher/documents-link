@@ -13,23 +13,38 @@ def InvalidLinks():
 
 class Test(unittest.TestCase):
 
-    def test_1(self):
-        objective               = TextFile_database.TextFileDatabase()
-        file_open_object1           = objective.open(FileTable(), InvalidLinks())
-        file_isOpen_object1         = objective.isOpen()
-        file_close_object1          = objective.close()
+    def test_OpenDatabase(self):
+        request=TextFile_database.databaseOpenRequest()
+        db=TextFile_database.TextFileDatabase()
+        self.assertTrue(db.open(request))
+    
+    def test_OpenDatabaseWithWrongTypeThrowsException(self):
+        with self.assertRaises(ValueError) as context:
+            request="/file/path/file.txt"
+            db=TextFile_database.TextFileDatabase()
+            self.assertTrue(db.open(request))
+        the_exception=context.exception
+        self.assertTrue("Invalid database type" in the_exception.args)
+    
+    def test_IsOpenReturnsFalse(self):
+        pass
 
-        file_open_object2           = objective.open(InvalidLinks(), InvalidLinks())
-        file_isOpen_object2         = objective.isOpen()
-        file_close_object2          = objective.close()
+    def test_IsOpenReturnsTrueWhenDatabaseOpenWasCalled(self):
+        pass
 
-        self.assertTrue(file_open_object1)
-        self.assertTrue(file_isOpen_object1)
-        self.assertTrue(file_close_object1)
+    def test_CloseDatabase(self):
+        pass
 
-        self.assertTrue(file_open_object2)
-        self.assertTrue(file_isOpen_object2)
-        self.assertTrue(file_close_object2)
+    def test_IsOpenReturnsFalseWhenDatabaseOpenAndCloseWasCalled(self):
+        pass
+    
+    def test_AddFilePathThrowsIfDatabaseIsNotOpen(self):
+        with self.assertRaises(RuntimeError) as context:
+            request="/file/path/file.txt"
+            db=TextFile_database.TextFileDatabase()
+            self.assertTrue(db.add_filePath("path"))
+        the_exception=context.exception
+        self.assertTrue("database is not open" in the_exception.args)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
