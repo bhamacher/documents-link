@@ -1,6 +1,4 @@
 from os.path import exists
-from operator import contains
-from hawkey import ValueException
 from database import IDatabase
 import io
 import os
