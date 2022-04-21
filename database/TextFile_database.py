@@ -1,10 +1,17 @@
 from os.path import exists
 from operator import contains
-
 from hawkey import ValueException
 from database import IDatabase
-
 import io
+import os
+
+
+def FileTable():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"FileTable.txt"))
+
+def InvalidLinks():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"InvalidLinks.txt"))
+
 
 class databaseOpenRequest:
     text_file_database : str
@@ -13,18 +20,20 @@ class databaseOpenRequest:
 
 class TextFileDatabase(IDatabase.IDatabase):
 
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
-        self.text_file_database=io.StringIO("")
-        self.invalid_link_database=io.StringIO("")
+        self.text_file_database = io.StringIO("")
+        self.invalid_link_database = io.StringIO("")
         self.invalid_link_database.close()
         self.text_file_database.close()
     
     def open(self,database : databaseOpenRequest):
         if type(database) is not databaseOpenRequest:
             raise ValueError("Invalid database type")
-        self.text_file_database = database.text_file_database
-        self.invalid_link_database = database.invalid_link_database
+
+        self.text_file_database = FileTable()
+        self.invalid_link_database = InvalidLinks()
+
         # check whether given database exit or not.
         if exists(self.text_file_database):
             self.text_file_database = open(self.text_file_database, "a+")
@@ -58,13 +67,21 @@ class TextFileDatabase(IDatabase.IDatabase):
         
     def add_filePath(self,path):
         if not self.text_file_database.closed:
-            self.text_file_database.write(path)
+            if self.contains_filePath(path) == False:
+                self.text_file_database.write(path + "\n")
             return path
         else:
             raise RuntimeError("database is not open")
 
 
     def remove_filePath(self,path): ## and truncate
+        if not self.text_file_database.closed:
+            pass
+        else:
+            raise RuntimeError("database is not open")
+
+
+
         """!
         Remove file path from database
         e.g. /s-zera-stor01/..../File1.docx
@@ -80,23 +97,27 @@ class TextFileDatabase(IDatabase.IDatabase):
 
         @throw RuntimeError if database is not open
         """
-        pass
 
 
     def contains_filePath(self,path):
-        """!
-        Return true if path is stored in database
+        if not self.text_file_database.closed:
+            with open(self.text_file_database.name) as f:
+                if path in str([line.rstrip('\n') for line in f]):
+                    return True
+                else:
+                    return False
+        else:
+            raise RuntimeError("database is not open")
 
-        @param path  The expected path 
-
-        @return true if path was found false othwerwise
-
-        @throw RuntimeError if database is not open
-        """
-        pass
-    
 
     def get_all_Path(self):
+        if not self.text_file_database.closed:
+            with open(self.text_file_database.name) as f:
+                data_into_list = f.read().split("\n")
+            return data_into_list
+        else:
+            raise RuntimeError("database is not open")
+
         """!
         Return list with all stored path
 
@@ -104,13 +125,13 @@ class TextFileDatabase(IDatabase.IDatabase):
 
         @throw RuntimeError if database is not open
         """
-        pass
 
 
     def add_invalidLink(self,path,link):
+
         """!
         Add invalid link to database
-        The link is assigned to the file where it was foiund in.
+        The link is assigned to the file where it was found in.
 
         @param path  file that contains invlaid link
         @param link  the invalid link itself
