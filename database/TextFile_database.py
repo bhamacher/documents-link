@@ -25,17 +25,13 @@ class TextFileDatabase(IDatabase.IDatabase):
     def open(self,database : databaseOpenRequest):
         if type(database) is not databaseOpenRequest:
             raise ValueError("Invalid database type")
-        # self.text_file_database = FileTable()
-        # self.invalid_link_database = InvalidLinks()
-        # check whether given database exit or not.
-        if exists(database.text_file_database_name):
-            self.text_file_database = open(database.text_file_database_name, "a+")
-        else:
-            self.text_file_database=open(database.text_file_database_name, "w+")
-        if exists(database.invalid_link_database_name):
-            self.invalid_link_database = open(database.invalid_link_database_name, "a+")
-        else:
-            self.invalid_link_database=open(database.invalid_link_database_name, "w+")
+
+        
+        self.text_file_database = open(database.text_file_database_name, "w+")
+        self.text_file_database.seek(0)
+        
+        self.invalid_link_database = open(database.invalid_link_database_name, "w+")
+        self.invalid_link_database.seek(0)
         return True
 
     def close(self):
@@ -60,13 +56,14 @@ class TextFileDatabase(IDatabase.IDatabase):
             raise RuntimeError("database is not open")
 
     def remove_filePath(self,path):
-        ## remove path
+        ##remove path
         if not self.text_file_database.closed:
             if self.contains_filePath(path) == True:
-                lines=self.text_file_database.readlines()
-                lines.remove(path+"\n")
-                for line in lines:        
-                    self.text_file_database.write(line)
+                lines = self.text_file_database.readlines()
+                lines.remove(path + "\n")
+                with open(self.invalid_link_database.name, "w+") as new_f:
+                    for line in lines:        
+                        new_f.write(line)
 
         ## remove invalid links assigned to this path
         if not self.invalid_link_database.closed:
@@ -74,28 +71,27 @@ class TextFileDatabase(IDatabase.IDatabase):
             i = 0
             len_link = len(invalid_links)
             while i < len_link:
-                print("A",invalid_links)
-                with open(self.invalid_link_database.name) as f:
-                    lines = f.readlines()
-                    lines.remove(invalid_links[i] + "\n")
-                    with open(self.invalid_link_database.name, "w+") as new_f:
-                        for line in lines:        
-                            new_f.write(line)
-                    if i == len_link:
-                        break
-                    i +=1
+                lines = self.invalid_link_database.readlines()
+                lines.remove(invalid_links[i] + "\n")
+                with open(self.invalid_link_database.name, "w+") as new_f:
+                    for line in lines:        
+                        new_f.write(line)
+                if i == len_link:
+                    break
+                i +=1
             return path
-
         else:
             raise RuntimeError("database is not open")
 
     def contains_filePath(self,path):
         if not self.text_file_database.closed:
-            with open(self.text_file_database.name) as f:
-                if path in str([line.rstrip('\n') for line in f]):
+            lines = self.text_file_database.readlines()
+            for line in lines:
+                if line == path + "\n":
                     return True
-                else:
-                    return False
+            else:
+                return False
+                
         else:
             raise RuntimeError("database is not open")
 

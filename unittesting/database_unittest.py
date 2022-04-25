@@ -1,6 +1,8 @@
 import unittest
 import os
+import shutil
 from database import TextFile_database
+
 
 def FileTableCopy():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test','tmp',"FileTable.txt"))
@@ -17,16 +19,21 @@ class Test(unittest.TestCase):
 
     def setUp(self):
         # TODO create tmp folder
+        shutil.copyfile(FileTable(), FileTableCopy())
+        shutil.copyfile(InvalidLinks(), InvalidLinksCopy())
+
         self.request = TextFile_database.databaseOpenRequest()
-        self.request.text_file_database_name=FileTableCopy()
-        self.request.invalid_link_database_name=InvalidLinksCopy()
+        self.request.text_file_database_name = FileTableCopy()
+        self.request.invalid_link_database_name = InvalidLinksCopy()
         self.db = TextFile_database.TextFileDatabase()
         self.path = "/s-zera-stor01/File1.docx"
         self.link = "/s-zera-stor01/File_0.txt"
         return super().setUp()
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         #TODO delete tmp folder
+        #os.remove(FileTableCopy())
+        #os.remove(InvalidLinksCopy())
         return super().tearDown()
 
     def test_1_OpenDatabase(self):
@@ -73,7 +80,7 @@ class Test(unittest.TestCase):
     def test_8a_RemoveFilePathWhenDatabaseIsOpen(self):
         DatabaseIsOpen = self.db.open(self.request)
         self.assertTrue(DatabaseIsOpen)
-        path = "/s-zera-stor01/File11.docx" 
+        path = "/s-zera-stor01/File1.docx" 
         RemoveFilePath = self.db.remove_filePath(path)
         self.assertEqual(RemoveFilePath, path)
     
@@ -98,6 +105,8 @@ class Test(unittest.TestCase):
     def test_12_GetAllFilePathListPathWhenDatabaseOpen(self):
         DatabaseOpen = self.db.open(self.request)
         self.assertTrue(DatabaseOpen)
+        ContainsFileTrue = self.db.get_all_Path()
+        self.assertEqual(type(ContainsFileTrue), list)
         ContainsFileTrue = self.db.get_all_Path()
         self.assertEqual(type(ContainsFileTrue), list)
 
