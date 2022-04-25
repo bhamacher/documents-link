@@ -6,7 +6,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         self.request = TextFile_database.databaseOpenRequest()
         self.db = TextFile_database.TextFileDatabase()
-        self.path = "/s-zera-stor01/File3.docx"
+        self.path = "/s-zera-stor01/File1.docx"
         self.link = "/s-zera-stor01/File_0.txt"
         return super().setUp()
 
@@ -51,17 +51,24 @@ class Test(unittest.TestCase):
         AddFilePath = self.db.add_filePath(self.path)
         self.assertEqual(AddFilePath, self.path)
     
+    def test_8a_RemoveFilePathWhenDatabaseIsOpen(self):
+        DatabaseIsOpen = self.db.open(self.request)
+        self.assertTrue(DatabaseIsOpen)
+        path = "/s-zera-stor01/File11.docx" 
+        RemoveFilePath = self.db.remove_filePath(path)
+        self.assertEqual(RemoveFilePath, path)
+    
     def test_9_RemoveFilePathThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:
             self.assertTrue(self.db.remove_filePath("/path/"))
         the_exception = context.exception
         self.assertTrue("database is not open" in the_exception.args)
 
-    def test_10_ContainsFileTruePathWhenDatabaseOpen(self):
+    def test_10_ContainsFilePathWhenDatabaseOpen(self):
         DatabaseOpen = self.db.open(self.request)
         self.assertTrue(DatabaseOpen)
-        ContainsFileTrue = self.db.contains_filePath(self.path)
-        self.assertIn(ContainsFileTrue, [True, False])
+        ContainsFile = self.db.contains_filePath(self.path)
+        self.assertIn(ContainsFile, [True, False])
 
     def test_11_ContainsFilePathThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:
@@ -108,8 +115,8 @@ class Test(unittest.TestCase):
     def test_18_GetInvalidLinksListWhenDatabaseOpen(self):
         DatabaseOpen = self.db.open(self.request)
         self.assertTrue(DatabaseOpen)
-        ContainsInvalidLinks = self.db.get_invalid_links(self.path)
-        self.assertEqual(type(ContainsInvalidLinks), list)
+        GetInvalidLinks = self.db.get_invalid_links(self.path)
+        self.assertEqual(type(GetInvalidLinks), list)
 
     def test_19_GetInvalidLinkThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:
@@ -120,8 +127,8 @@ class Test(unittest.TestCase):
     def test_20_GetAllInvalidLinkSetPathWhenDatabaseOpen(self):
         DatabaseOpen = self.db.open(self.request)
         self.assertTrue(DatabaseOpen)
-        ContainsFileTrue = self.db.get_all_invalid_links()
-        self.assertEqual(type(ContainsFileTrue), set)
+        GetAllInvalidLink = self.db.get_all_invalid_links()
+        self.assertEqual(type(GetAllInvalidLink), set)
 
     def test_21_GetAllInvalidLinksThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:
