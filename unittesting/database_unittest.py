@@ -1,14 +1,33 @@
 import unittest
+import os
 from database import TextFile_database
 
+def FileTableCopy():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test','tmp',"FileTable.txt"))
+
+def InvalidLinksCopy():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test','tmp',"InvalidLinks.txt"))
+
+def FileTable():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test',"FileTable.txt"))
+
+def InvalidLinks():
+    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test',"InvalidLinks.txt"))
 class Test(unittest.TestCase):
 
     def setUp(self):
+        # TODO create tmp folder
         self.request = TextFile_database.databaseOpenRequest()
+        self.request.text_file_database_name=FileTableCopy()
+        self.request.invalid_link_database_name=InvalidLinksCopy()
         self.db = TextFile_database.TextFileDatabase()
         self.path = "/s-zera-stor01/File1.docx"
         self.link = "/s-zera-stor01/File_0.txt"
         return super().setUp()
+
+    def tearDown(self) -> None:
+        #TODO delete tmp folder
+        return super().tearDown()
 
     def test_1_OpenDatabase(self):
         self.assertTrue(self.db.open(self.request))
