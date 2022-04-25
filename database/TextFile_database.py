@@ -3,15 +3,15 @@ from database import IDatabase
 import io
 import os
 
-def FileTable():
-    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"FileTable.txt"))
+# def FileTable():
+#     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"FileTable.txt"))
 
-def InvalidLinks():
-    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"InvalidLinks.txt"))
+# def InvalidLinks():
+#     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'database',"InvalidLinks.txt"))
 
 class databaseOpenRequest:
-    text_file_database : str
-    invalid_link_database : str
+    text_file_database_name : str
+    invalid_link_database_name : str
 
 class TextFileDatabase(IDatabase.IDatabase):
 
@@ -25,17 +25,17 @@ class TextFileDatabase(IDatabase.IDatabase):
     def open(self,database : databaseOpenRequest):
         if type(database) is not databaseOpenRequest:
             raise ValueError("Invalid database type")
-        self.text_file_database = FileTable()
-        self.invalid_link_database = InvalidLinks()
+        # self.text_file_database = FileTable()
+        # self.invalid_link_database = InvalidLinks()
         # check whether given database exit or not.
-        if exists(self.text_file_database):
-            self.text_file_database = open(self.text_file_database, "a+")
+        if exists(database.text_file_database_name):
+            self.text_file_database = open(database.text_file_database_name, "a+")
         else:
-            open(self.text_file_database, "w+")
-        if exists(self.invalid_link_database):
-            self.invalid_link_database = open(self.invalid_link_database, "a+")
+            self.text_file_database=open(database.text_file_database_name, "w+")
+        if exists(database.invalid_link_database_name):
+            self.invalid_link_database = open(database.invalid_link_database_name, "a+")
         else:
-            open(self.invalid_link_database, "w+")
+            self.invalid_link_database=open(database.invalid_link_database_name, "w+")
         return True
 
     def close(self):
@@ -63,12 +63,10 @@ class TextFileDatabase(IDatabase.IDatabase):
         ## remove path
         if not self.text_file_database.closed:
             if self.contains_filePath(path) == True:
-                with open(self.text_file_database.name) as f:
-                    lines = f.readlines()
-                    lines.remove(path+"\n")
-                    with open(self.text_file_database.name, "w+") as new_f:
-                        for line in lines:        
-                            new_f.write(line)
+                lines=self.text_file_database.readlines()
+                lines.remove(path+"\n")
+                for line in lines:        
+                    self.text_file_database.write(line)
 
         ## remove invalid links assigned to this path
         if not self.invalid_link_database.closed:
