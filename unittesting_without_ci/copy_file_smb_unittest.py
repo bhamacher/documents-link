@@ -1,6 +1,6 @@
 import unittest
 from getpass import getpass
-from modules import smb_copy_file
+from document_links import smb_copy_file
 
 smb_data_full_path = input("give smb data full path" + "\n" + "Example for smb : smb://s-zera-stor01/data1/dir/file.docx" + "\n")
 

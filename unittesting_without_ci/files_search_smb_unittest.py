@@ -1,11 +1,11 @@
 import unittest
-from modules import smb_search
+from document_links import smb_search
 
 smb_data = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU"
 
 class Test(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.file_path_object = smb_search.SmbSearch()
         return super().setUp()
 

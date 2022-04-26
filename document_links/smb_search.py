@@ -3,8 +3,8 @@ from getpass import getpass
 
 from urllib.parse import urlparse
 import fnmatch
-from modules import I_search_file
-from modules import smb_connection
+from document_links import I_search_file
+from document_links import smb_connection
 
 class SmbSearch(I_search_file.ISearchFileStrategy):
     def smbwalk(self, conn, shareddevice, top = u'/'):

@@ -1,6 +1,6 @@
 import unittest
 import os
-from modules import local_search
+from document_links import local_search
 
 
 ## local

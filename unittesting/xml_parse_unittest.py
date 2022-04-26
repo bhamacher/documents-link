@@ -1,5 +1,5 @@
 import unittest
-from modules import xml_parse
+from document_links import xml_parse
 
 VALIDXML = """<?xml version="1.0" encoding="UTF-8"?>
         <xmldata>

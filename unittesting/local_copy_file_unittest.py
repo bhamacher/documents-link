@@ -1,6 +1,6 @@
 import unittest
 import os
-from modules import local_copy_file
+from document_links import local_copy_file
 
 
 def test_link_data():

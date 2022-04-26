@@ -1,6 +1,6 @@
 import glob
 import os
-from modules import I_search_file
+from document_links import I_search_file
 
 class LocalFileSearch(I_search_file.ISearchFileStrategy):
 

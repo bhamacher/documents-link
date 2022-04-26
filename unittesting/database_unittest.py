@@ -1,7 +1,7 @@
 import unittest
 import os
 import shutil
-from database import TextFile_database
+from document_links.database import TextFile_database
 
 def FileTableCopy():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test','tmp',"FileTable.txt"))

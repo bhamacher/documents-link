@@ -5,10 +5,10 @@ import shutil
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 from zipfile import ZipFile
-from modules import smb_connection
+from document_links import smb_connection
 import tempfile
 from urllib.parse import urlparse
-from modules import I_copy_file
+from document_links import I_copy_file
 
 
 def output_zip():

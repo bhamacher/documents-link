@@ -4,7 +4,7 @@ import shutil
 from zipfile import ZipFile
 from pathlib import Path
 import xml.etree.ElementTree as ET
-from modules import I_copy_file
+from document_links import I_copy_file
 
 
 def output_zip():

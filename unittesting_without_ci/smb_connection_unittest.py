@@ -1,6 +1,6 @@
 import unittest
 from getpass import getpass
-from modules import smb_connection
+from document_links import smb_connection
 
 smb_path_name = "smb://s-zera-stor01/data1/Zusammenarbeit/Transferordner/EW/DKU/test_link_data/docx_data/Abt-TB-2021-05-03.docx"
 

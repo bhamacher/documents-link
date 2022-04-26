@@ -4,7 +4,7 @@ import shutil
 from os import path
 import tempfile
 from zipfile import ZipFile
-from modules import file_unpacking
+from document_links import file_unpacking
 
 def test_link_data():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_link_data'))

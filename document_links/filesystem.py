@@ -1,5 +1,5 @@
-from modules import I_search_file
-from modules import I_copy_file
+from document_links import I_search_file
+from document_links import I_copy_file
 
 ## context - the primary class
 class FileSystem:

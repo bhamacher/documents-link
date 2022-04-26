@@ -1,9 +1,9 @@
 import unittest
-from modules import FileSystemBehaviourFactory
-from modules import smb_search
-from modules import local_search
-from modules import local_copy_file
-from modules import smb_copy_file
+from document_links import FileSystemBehaviourFactory
+from document_links import smb_search
+from document_links import local_search
+from document_links import local_copy_file
+from document_links import smb_copy_file
 
 
 class Test(unittest.TestCase):
