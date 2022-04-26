@@ -170,6 +170,7 @@ class TextFileDatabase(IDatabase.IDatabase):
                 break
             i +=1
         return link
+        
 
 ### private functions.
     def __remove_line_breaks(self,entries):

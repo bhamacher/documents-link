@@ -127,7 +127,7 @@ class IDatabase(ABC):
         Remove invalid link from database
         e.g. /s-zera-stor01/..../File1.docx
 
-        contains_invlaidLInkwill return false for this link and file combination
+        contains_invlaidLink will return false for this link and file combination
         get_invalid_links will not list this further for this path.
 
         Furthermore all invlaid links assigned to this file will be deleted as well.

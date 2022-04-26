@@ -17,7 +17,10 @@ def InvalidLinks():
 class Test(unittest.TestCase):
 
     def setUp(self):
-        os.mkdir('test_folder/txt_file_database_test/tmp')
+        if os.path.isdir('test_folder/txt_file_database_test/tmp'):
+            pass
+        else:
+            os.mkdir('test_folder/txt_file_database_test/tmp')
         shutil.copyfile(FileTable(), FileTableCopy())
         shutil.copyfile(InvalidLinks(), InvalidLinksCopy())
         self.request = TextFile_database.databaseOpenRequest()
@@ -29,7 +32,7 @@ class Test(unittest.TestCase):
         return super().setUp()
 
     def tearDown(self):
-        shutil.rmtree('test_folder/txt_file_database_test/tmp')
+        #shutil.rmtree('test_folder/txt_file_database_test/tmp')
         return super().tearDown()
 
     def test_1_OpenDatabase(self):
@@ -139,6 +142,10 @@ class Test(unittest.TestCase):
         self.assertTrue(DatabaseOpen)
         InvalidLink = self.db.remove_invalidLink(self.path, self.link)
         self.assertEqual(InvalidLink, self.link)
+        contains_invalidLin = self.db.contains_invalidLink(self.path, self.link)
+        self.assertFalse(contains_invalidLin)
+        get_invalid_links = self.db.get_invalid_links(self.path)
+        self.assertNotIn(self.link, list(get_invalid_links))
 
     def test_19_RemoveInvalidLinkThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:
@@ -204,6 +211,10 @@ class Test(unittest.TestCase):
         self.assertTrue(DatabaseOpen)
         InvalidLink = self.db.remove_all_occurence_of_invalid_link(self.link)
         self.assertEqual(InvalidLink, self.link)
+        get_all_invalid_links = self.db.get_all_invalid_links()
+        self.assertNotIn(self.link, list(get_all_invalid_links))
+        get_invalid_links = self.db.get_invalid_links(self.path)
+        self.assertNotIn(self.link, list(get_invalid_links))
 
     def test_28_RemoveAllOccurenceOfInvalidLinkThrowsIfDatabaseIsNotOpen(self):
         with self.assertRaises(RuntimeError) as context:

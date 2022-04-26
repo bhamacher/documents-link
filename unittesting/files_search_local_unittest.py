@@ -12,7 +12,9 @@ TESTDIR_STRUCTURE = [
     'folder12/text21a.txt',
     'folder2/foo2.txt',
     'folder21/text21.txt',
-    'folder22/text22.txt']
+    'folder22/text22.txt',
+    'txt_file_database_test/FileTable.txt',
+    'txt_file_database_test/InvalidLinks.txt']
 
 def test_folder():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder'))
