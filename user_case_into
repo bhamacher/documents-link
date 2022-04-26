@@ -1,0 +1,32 @@
+# find all files on drive and write to filetable form here
+document-links update-filetable smb://s-zera-stor01/.../path
+
+# remove all files from filetable
+document-links clean-filetable
+
+later:
+
+#check-links in file (compare with database)
+document-links check-links smb://s-zera-stor01/.../path/file 
+or
+document-links check-links ~/.../path/file 
+
+#check links for all files from here (compare with database)
+document-links check-links smb://s-zera-stor01/.../path/ 
+
+#update filetable and check all links
+document-links smb://s-zera-stor01/data1 smb://s-zera-stor01/.../path 
+
+# store credentials in file for later use (encrypted)
+document-links store-credentials
+
+# show how to use
+document-links --help
+
+
+
+#help:
+document-links [--help] | <command> [<args>]
+
+    update-filetable  stores all files in path into filetable
+     

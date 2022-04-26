@@ -6,16 +6,17 @@ def show_help():
 
 
 def main(args):
+    pass
 
     ## find command and arguments
 
 
 
 
-    system=document_...
+    """system=document_...
     if usecase == updateFiletable
         system.uodate_file...(path)
-    pass
+        pass"""
 
 
 if __name__ == '__main__':
