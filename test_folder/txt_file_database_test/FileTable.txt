@@ -1,2 +1,3 @@
-file1
-file2
+/s-zera-stor01/File1.docx
+/s-zera-stor01/File2.docx
+/s-zera-stor01/File3.docx
