@@ -13,7 +13,6 @@ def test_link_data():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','folder_test'))
 
 
-
 class DocumentLinks():
 
     def __init__(self):

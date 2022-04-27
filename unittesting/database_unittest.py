@@ -14,6 +14,7 @@ def FileTable():
 
 def InvalidLinks():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test',"InvalidLinks.txt"))
+
 class Test(unittest.TestCase):
 
     def setUp(self):

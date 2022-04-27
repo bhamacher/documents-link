@@ -19,9 +19,8 @@ class Test(unittest.TestCase):
         password            = " "
         destination         = " "
         search_result = self.file_path_object.copy_file(docx_file_path_zip, destination, user_name, password)
-        self.assertEqual(search_result, True)
+        self.assertIsNotNone(search_result)
 
-    
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
