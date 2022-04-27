@@ -2,25 +2,26 @@ from os.path import exists
 from document_links.database import IDatabase
 import io
 
-class databaseOpenRequest:
+class databaseProperties:
     text_file_database_name : str
     invalid_link_database_name : str
 
 class TextFileDatabase(IDatabase.IDatabase):
 
-    def __init__(self):
+    def __init__(self, databaseProp : databaseProperties):
+        if type(databaseProp) is not databaseProperties:
+            raise ValueError("Invalid database type")
+        
+        self.databaseProp=databaseProp
         super().__init__()
         self.text_file_database = io.StringIO("")
         self.invalid_link_database = io.StringIO("")
         self.invalid_link_database.close()
         self.text_file_database.close()
     
-    def open(self,database : databaseOpenRequest):
-        if type(database) is not databaseOpenRequest:
-            raise ValueError("Invalid database type")
-
-        self.text_file_database = open(database.text_file_database_name, "r+")
-        self.invalid_link_database = open(database.invalid_link_database_name, "r+")
+    def open(self):
+        self.text_file_database = open(self.databaseProp.text_file_database_name, "r+")
+        self.invalid_link_database = open(self.databaseProp.invalid_link_database_name, "r+")
         self.__reinit_file_access()
         return True
 

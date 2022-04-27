@@ -15,7 +15,7 @@ class IDatabase(ABC):
 
 
     @abstractmethod
-    def open(self,database):
+    def open(self):
         """!
         Opens existing database or creates new one if db does not exist
 

@@ -3,11 +3,9 @@ from document_links import local_search
 from document_links.database import TextFile_database
 import os
 
-def FileTable():
-        return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test',"FileTable.txt"))
+from document_links.database.IDatabase import IDatabase
 
-def InvalidLinks():
-    return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','txt_file_database_test',"InvalidLinks.txt"))
+
 
 def test_link_data():
     return os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'test_folder','folder_test'))
@@ -15,7 +13,8 @@ def test_link_data():
 
 class DocumentLinks():
 
-    def __init__(self):
+    def __init__(self, db : IDatabase):
+        self.db = db
         pass
 
     # find all files on drive and write to filetable form here
@@ -33,13 +32,9 @@ class DocumentLinks():
         ## local file
         local_file = local_search.LocalFileSearch().search_file(args[0], "*")
         ## database
-        request = TextFile_database.databaseOpenRequest()
-        request.text_file_database_name = FileTable()
-        request.invalid_link_database_name = InvalidLinks()
-        db = TextFile_database.TextFileDatabase()
-        db.open(request)
+        self.db.open()
         for file in local_file:
-            db.add_filePath(file)
+            self.db.add_filePath(file)
         return True
 
 

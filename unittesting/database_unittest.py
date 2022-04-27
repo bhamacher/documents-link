@@ -24,25 +24,25 @@ class Test(unittest.TestCase):
             os.mkdir('test_folder/txt_file_database_test/tmp')
         shutil.copyfile(FileTable(), FileTableCopy())
         shutil.copyfile(InvalidLinks(), InvalidLinksCopy())
-        self.request = TextFile_database.databaseOpenRequest()
+        self.request = TextFile_database.databaseProperties()
         self.request.text_file_database_name = FileTableCopy()
         self.request.invalid_link_database_name = InvalidLinksCopy()
-        self.db = TextFile_database.TextFileDatabase()
+        self.db = TextFile_database.TextFileDatabase(self.request)
         self.path = "/s-zera-stor01/File1.docx"
         self.link = "/s-zera-stor01/File_0.txt"
         return super().setUp()
 
     def tearDown(self):
-        #shutil.rmtree('test_folder/txt_file_database_test/tmp')
+        shutil.rmtree('test_folder/txt_file_database_test/tmp')
         return super().tearDown()
 
     def test_1_OpenDatabase(self):
-        self.assertTrue(self.db.open(self.request))
+        self.assertTrue(self.db.open())
     
-    def test_2_OpenDatabaseWithWrongTypeThrowsException(self):
+    def test_2_CreateWithWrongTypeThrowsException(self):
         with self.assertRaises(ValueError) as context:
             request="/file/path/file.txt"
-            self.assertTrue(self.db.open(request))
+            TextFile_database.TextFileDatabase(request)
         the_exception = context.exception
         self.assertTrue("Invalid database type" in the_exception.args)
     
@@ -50,7 +50,7 @@ class Test(unittest.TestCase):
         self.assertFalse(self.db.isOpen())
 
     def test_4_IsOpenReturnsTrueWhenDatabaseOpenWasCalled(self):
-        OpenWasCalled = self.db.open(self.request)
+        OpenWasCalled = self.db.open()
         self.assertTrue(OpenWasCalled)
         self.assertTrue(self.db.isOpen())
 
@@ -58,7 +58,7 @@ class Test(unittest.TestCase):
         self.assertTrue(self.db.close())
 
     def test_6_IsOpenReturnsFalseWhenDatabaseOpenAndCloseWasCalled(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         CloseWasCalled = self.db.close()
         self.assertTrue(CloseWasCalled)
@@ -72,13 +72,13 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_8_AddFilePathWhenDatabaseIsOpen(self):
-        DatabaseIsOpen = self.db.open(self.request)
+        DatabaseIsOpen = self.db.open()
         self.assertTrue(DatabaseIsOpen)
         AddFilePath = self.db.add_filePath(self.path)
         self.assertEqual(AddFilePath, self.path)
     
     def test_9_RemoveFilePathWhenDatabaseIsOpen(self):
-        DatabaseIsOpen = self.db.open(self.request)
+        DatabaseIsOpen = self.db.open()
         self.assertTrue(DatabaseIsOpen)
         RemoveFilePath = self.db.remove_filePath(self.path)
         self.assertEqual(RemoveFilePath, self.path)
@@ -90,13 +90,13 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_11_ContainsFilePathWhenDatabaseOpenFileThere(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         ContainsFileTrue = self.db.contains_filePath(self.path)
         self.assertTrue(ContainsFileTrue)
 
     def test_12_ContainsFilePathWhenDatabaseOpenFileNotThere(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         ContainsFileFalse = self.db.contains_filePath("foo")
         self.assertFalse(ContainsFileFalse)
@@ -108,7 +108,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_14_GetAllPathListPathWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         expected=[
             "/s-zera-stor01/File1.docx",
             "/s-zera-stor01/File2.docx",
@@ -127,7 +127,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_16_AddInvalidLinkPathWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         InvalidLink = self.db.add_invalidLink(self.path, self.link)
         self.assertEqual(InvalidLink, self.link)
@@ -139,7 +139,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_18_RemoveInvalidLinkWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         InvalidLink = self.db.remove_invalidLink(self.path, self.link)
         self.assertEqual(InvalidLink, self.link)
@@ -155,13 +155,13 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
    
     def test_20_ContainsInvalidLinkWhenDatabaseOpenLinkThere(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         ContainsFileTrue = self.db.contains_invalidLink(self.path, self.link)
         self.assertTrue(ContainsFileTrue)
     
     def test_21_ContainsInvalidLinkWhenDatabaseOpenLinkNotThere(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         ContainsFileFalse = self.db.contains_invalidLink(self.path, "foo")
         self.assertFalse(ContainsFileFalse)
@@ -173,7 +173,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_23_GetInvalidLinksWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         expected=set(
             [
@@ -190,7 +190,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_25_GetAllInvalidLinkSetPathWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         expected=set(
             [
@@ -208,7 +208,7 @@ class Test(unittest.TestCase):
         self.assertTrue("database is not open" in the_exception.args)
 
     def test_27_RemoveAllOccurenceOfInvalidLinkWhenDatabaseOpen(self):
-        DatabaseOpen = self.db.open(self.request)
+        DatabaseOpen = self.db.open()
         self.assertTrue(DatabaseOpen)
         InvalidLink = self.db.remove_all_occurence_of_invalid_link(self.link)
         self.assertEqual(InvalidLink, self.link)
