@@ -1,5 +1,5 @@
 from os.path import exists
-from database import IDatabase
+from document_links.database import IDatabase
 import io
 
 class databaseOpenRequest:
