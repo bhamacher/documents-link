@@ -44,9 +44,9 @@ class DocumentLinks():
 
 
     def clean_filetable(self,args):
-        f = open(FileTable(), "r+")
-        f.truncate(0)
-        f.close()
+        # f = open(FileTable(), "r+")
+        # f.truncate(0)
+        # f.close()
         return True
 
     def check_links(self,args):
