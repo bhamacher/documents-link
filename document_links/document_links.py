@@ -38,13 +38,8 @@ class DocumentLinks():
         request.invalid_link_database_name = InvalidLinks()
         db = TextFile_database.TextFileDatabase()
         db.open(request)
-        i = 0
-        len_local_file = len(local_file)
-        while i < len_local_file:
-            db.add_filePath(local_file[i])
-            if i == len_local_file:
-                break
-            i +=1
+        for file in local_file:
+            db.add_filePath(file)
         return True
 
 
