@@ -1,5 +1,0 @@
-/s-zera-stor01/File1.docx,/s-zera-stor01/File_0.txt
-/s-zera-stor01/File2.docx,/s-zera-stor01/File_0.txt
-/s-zera-stor01/File2.docx,/s-zera-stor01/File_1.txt
-/s-zera-stor01/File3.docx,/s-zera-stor01/File_0.txt
-/s-zera-stor01/File3.docx,/s-zera-stor01/File_1.txt
